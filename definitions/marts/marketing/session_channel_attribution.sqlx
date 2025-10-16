@@ -1,26 +1,27 @@
 
 config {
-    type: "table",
-    description: "Session level count per channel",
-    columns: {
-        source: "Source",
-        medium: "Medium",
-        campaign_name: "Campaign name"
-    },
-    bigquery {
-        clusterBy: ["source"]
-    }
+  type: "table",
+  description: "Session level count per channel",
+  columns: {
+    source: "Source",
+    medium: "Medium",
+    campaign_name: "Campaign name"
+  },
+  bigquery: {
+    clusterBy: ["source"]
+  }
 }
 
 WITH main AS (
-    SELECT * FROM ${ref("raw_ga4_events")}
+  SELECT * FROM ${ref("raw_ga4_events")}
 )
 
 SELECT
-    source,
-    medium,
-    campaign_name,
-    COUNT(DISTINCT ga_session_id),
-    COUNT(DISTINCT user_pseudo_id)
+  source,
+  medium,
+  campaign_name,
+  COUNT(DISTINCT ga_session_id) AS session_count,
+  COUNT(DISTINCT user_pseudo_id) AS user_count
 FROM main
 GROUP BY 1, 2, 3
+
