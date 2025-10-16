@@ -1,6 +1,7 @@
 
 config {
   type: "table",
+  dependOnDependencyAssertions: true,
   description: "Session level count per channel",
   columns: {
     source: "Source",
