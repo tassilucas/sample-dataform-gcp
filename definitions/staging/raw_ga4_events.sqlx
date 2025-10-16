@@ -1,0 +1,23 @@
+
+config {
+    type: "view",
+    columns: {
+        event_date: "Day of the event",
+        event_name: "Name of the event",
+        ga_session_id: "ID of the current session from cookie",
+        user_pseudo_id: "User ID from the cookie",
+        source: "User attribution: source",
+        medium: "User attribution: medium",
+        campaign_name: "User attribution: campaign name"
+    }
+}
+
+SELECT
+    event_date,
+    event_name,
+    (SELECT value.int_value FROM UNNEST(event_params) WHERE key = "ga_session_id") AS ga_session_id,
+    user_pseudo_id,
+    traffic_source.source AS source,
+    traffic_source.medium AS medium,
+    traffic_source.name AS campaign_name
+FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_202101*`
