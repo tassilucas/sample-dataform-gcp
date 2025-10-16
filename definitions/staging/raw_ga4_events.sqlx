@@ -9,6 +9,9 @@ config {
         source: "User attribution: source",
         medium: "User attribution: medium",
         campaign_name: "User attribution: campaign name"
+    },
+    assertions: {
+        nonNull: ['event_name', 'event_date', 'user_pseudo_id']
     }
 }
 
